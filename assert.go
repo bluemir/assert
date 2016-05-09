@@ -13,33 +13,33 @@ func Use(t *testing.T) func(interface{}) *matcher {
 }
 
 type matcher struct {
-	expect interface{}
+	actual interface{}
 	t      *testing.T
 }
 
-func (m *matcher) Is(actual interface{}) *matcher {
-	switch expect := m.expect.(type) {
+func (m *matcher) Is(expect interface{}) *matcher {
+	switch actual := m.actual.(type) {
 
 	case int:
-		actual := actual.(int)
+		expect := expect.(int)
 
 		if expect != actual {
 			m.t.Fatal(&assertFailInt{actual: actual, expect: expect})
 		}
 	case string:
-		actual := actual.(string)
+		expect := expect.(string)
 
 		if expect != actual {
 			m.t.Fatal(&assertFailString{actual: actual, expect: expect})
 		}
 	case bool:
-		actual := actual.(bool)
+		expect := expect.(bool)
 
 		if expect != actual {
 			m.t.Fatal(&assertFailBool{actual: actual, expect: expect})
 		}
 	case []string:
-		actual := actual.([]string)
+		expect := expect.([]string)
 
 		if err := stringArrayEquals(expect, actual); err != nil {
 			m.t.Fatal(err)
@@ -52,7 +52,7 @@ func (m *matcher) Is(actual interface{}) *matcher {
 }
 
 func (m *matcher) IsNotNil() *matcher {
-	if m.expect == nil {
+	if m.actual == nil {
 		m.t.Fatalf("expect not nil but nil")
 	}
 	return m
