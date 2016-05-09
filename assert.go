@@ -51,6 +51,13 @@ func (m *matcher) Is(actual interface{}) *matcher {
 	return m
 }
 
+func (m *matcher) IsNotNil() *matcher {
+	if m.expect == nil {
+		m.t.Fatalf("expect not nil but nil")
+	}
+	return m
+}
+
 type assertFail interface {
 	Error() string
 }
